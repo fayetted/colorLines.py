@@ -73,6 +73,11 @@ regexList   = ['Dropped', 'SRC=\w+.\w+.\w+.\w+', 'DPT=\d+']
 # regexList   = [ 'TCP_DENIED:\w+', 'TCP_HIT:\w+', 'TCP_CLIENT_REFRESH_MISS:DIRECT', 'TCP_REFRESH_\w+', 'TCP_MISS:\w+']
 
 #
+## AuthLog
+#
+# regexList   = [ '[iI]nvalid user \w+', 'User (\w+ from \S+) not allowed because not listed in AllowUsers', 'Received disconnect from \S+', 'Accepted publickey for \w+ from \S+', 'Did not receive identification string from']
+
+#
 ## Generic
 #
 # regexList   = ['[tT][cC][pP]', '[iI][cC][mM][pP]', '[uU][dD][pP]']
@@ -82,8 +87,8 @@ regexList   = ['Dropped', 'SRC=\w+.\w+.\w+.\w+', 'DPT=\d+']
 fg_color       = ["NONE", "RED", "YELLOW", "BLUE", "PURPLE", "CYAN", "GREEN"]
 bg_color    = ["NONE", "BG_RED", "BG_YELLOW", "BG_BLUE", "BG_PURPLE", "BG_CYAN", "BG_GREEN"]
 
-termFuncFGColor = {'NONE':termColor.NONE, 'RED':termColor.RED, 'BLUE':termColor.BLUE, 'YELLOW':termColor.YELLOW, 'CYAN':termColor.CYAN, 'GREEN':termColor.GREEN}
-termFuncBGColor = {'NONE':termColor.NONE, 'BG_RED':termColor.BG_RED, 'BG_BLUE':termColor.BG_BLUE, 'BG_YELLOW':termColor.BG_YELLOW, 'BG_CYAN':termColor.BG_CYAN, 'BG_GREEN':termColor.BG_GREEN}
+termFuncFGColor = {'NONE':termColor.NONE, 'RED':termColor.RED, 'YELLOW':termColor.YELLOW, 'BLUE':termColor.BLUE, 'PURPLE':termColor.PURPLE, 'CYAN':termColor.CYAN, 'GREEN':termColor.GREEN}
+termFuncBGColor = {'NONE':termColor.NONE, 'BG_RED':termColor.BG_RED, 'BG_YELLOW':termColor.BG_YELLOW, 'BG_BLUE':termColor.BG_BLUE, 'BG_PURPLE':termColor.BG_PURPLE, 'BG_CYAN':termColor.BG_CYAN, 'BG_GREEN':termColor.BG_GREEN}
 
 if len(regexList) > len(fg_color):
     print "You don't have enough colors to match all your regular expressions."
