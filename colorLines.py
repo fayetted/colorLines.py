@@ -41,7 +41,10 @@ class termColor():
 parser = argparse.ArgumentParser(description='Change colors of input lines and Regular Expresion matches.')
 parser.add_argument("-l", "--line", action="store_true", dest="colorLine", default=False, help="Change line color based on regex")
 parser.add_argument("-w", "--word", action="store_true", dest="colorWord", default=False, help="Change regex color in each line")
+<<<<<<< HEAD
 parser.add_argument("-o", "--type", action="store", dest="fileType", help="Treat STDIN as file type [ipf|ipt|squid|auth]")
+=======
+>>>>>>> 04d5d852960c217852808b38ac3627de17f24d60
 options = parser.parse_args()
 
 
@@ -81,7 +84,6 @@ else:
     ## Generic
     # regexList   = ['[tT][cC][pP]', '[iI][cC][mM][pP]', '[uU][dD][pP]']
     regexList   = ['[iI][gG][mM][pP]', '[iI][cC][mM][pP]', '[tT][cC][pP]', '[uU][dD][pP]']
-
 
 fg_color       = ["NONE", "RED", "YELLOW", "BLUE", "PURPLE", "CYAN", "GREEN"]
 bg_color    = ["NONE", "BG_RED", "BG_YELLOW", "BG_BLUE", "BG_PURPLE", "BG_CYAN", "BG_GREEN"]
