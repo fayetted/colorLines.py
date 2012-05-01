@@ -41,6 +41,7 @@ class termColor():
 parser = argparse.ArgumentParser(description='Change colors of input lines and Regular Expresion matches.')
 parser.add_argument("-l", "--line", action="store_true", dest="colorLine", default=False, help="Change line color based on regex")
 parser.add_argument("-w", "--word", action="store_true", dest="colorWord", default=False, help="Change regex color in each line")
+parser.add_argument("-o", "--type", action="store", dest="fileType", help="Treat STDIN as file type [ipf|ipt|squid|auth]")
 options = parser.parse_args()
 
 
@@ -48,40 +49,38 @@ options = parser.parse_args()
 ## Make sure that the length of the regexList is not longer than the length of the color list.
 #
 
-#
-## IPTables
-#
-regexList   = ['Dropped', 'SRC=\w+.\w+.\w+.\w+', 'DPT=\d+']
-# regexList   = ['Dropped', 'Passed']
-# regexList   = ['Dropped', 'Passed', '\wPT=\d+']
-# regexList   = ['Passed', '\wPT=\d+']
-# regexList   = ['PROTO=TCP', 'PROTO=ICMP', 'PROTO=UDP']
-# regexList   = ['PROTO=ICMP', 'PROTO=UDP']
-# regexList   = ['PROTO=\w+']     # This will color each line that contains PROTO and and highlight each instance of PROTO with the same color.
-# regexList   = ['SPT=\d+', 'DPT=\d+']
-# regexList   = ['[SD]PT=\d+']
-# regexList   = ['\wPT=\d+']
+if options.fileType:
+    ft = options.fileType.lower()
 
-#
-## IPF
-#
-# regexList   = [' b ', ' p ']
+    if ft == 'ipt':
+        ## IPTables
+        regexList   = ['Dropped', 'SRC=\w+.\w+.\w+.\w+', 'DPT=\d+']
+        # regexList   = ['Dropped', 'Passed']
+        # regexList   = ['Dropped', 'Passed', '\wPT=\d+']
+        # regexList   = ['Passed', '\wPT=\d+']
+        # regexList   = ['PROTO=TCP', 'PROTO=ICMP', 'PROTO=UDP']
+        # regexList   = ['PROTO=ICMP', 'PROTO=UDP']
+        # regexList   = ['PROTO=\w+']     # This will color each line that contains PROTO and and highlight each instance of PROTO with the same color.
+        # regexList   = ['SPT=\d+', 'DPT=\d+']
+        # regexList   = ['[SD]PT=\d+']
+        # regexList   = ['\wPT=\d+']
+    elif ft == 'ipf':
+        ## IPF
+        regexList   = [' b ', ' p ']
+    elif ft == 'squid':
+        ## Squid
+        regexList   = [ 'TCP_DENIED:\w+', 'TCP_HIT:\w+', 'TCP_CLIENT_REFRESH_MISS:DIRECT', 'TCP_REFRESH_\w+', 'TCP_MISS:\w+']
+    elif ft == 'auth':
+        ## AuthLog
+        regexList   = [ '[iI]nvalid user \w+', 'User (\w+ from \S+) not allowed because not listed in AllowUsers', 'Received disconnect from \S+', 'Accepted publickey for \w+ from \S+', 'Did not receive identification string from']
+    else:
+        print "If you use the -o/--type option you must specifiy a fileType"
+        sys.exit()
 
-#
-## Squid
-#
-# regexList   = [ 'TCP_DENIED:\w+', 'TCP_HIT:\w+', 'TCP_CLIENT_REFRESH_MISS:DIRECT', 'TCP_REFRESH_\w+', 'TCP_MISS:\w+']
-
-#
-## AuthLog
-#
-# regexList   = [ '[iI]nvalid user \w+', 'User (\w+ from \S+) not allowed because not listed in AllowUsers', 'Received disconnect from \S+', 'Accepted publickey for \w+ from \S+', 'Did not receive identification string from']
-
-#
-## Generic
-#
-# regexList   = ['[tT][cC][pP]', '[iI][cC][mM][pP]', '[uU][dD][pP]']
-# regexList   = ['[iI][gG][mM][pP]', '[iI][cC][mM][pP]', '[tT][cC][pP]', '[uU][dD][pP]']
+else:
+    ## Generic
+    # regexList   = ['[tT][cC][pP]', '[iI][cC][mM][pP]', '[uU][dD][pP]']
+    regexList   = ['[iI][gG][mM][pP]', '[iI][cC][mM][pP]', '[tT][cC][pP]', '[uU][dD][pP]']
 
 
 fg_color       = ["NONE", "RED", "YELLOW", "BLUE", "PURPLE", "CYAN", "GREEN"]
