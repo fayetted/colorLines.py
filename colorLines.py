@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 """
 colorLine.py is a small application that will take in STDIN and read each line.
-It has 4 color modes based on lines and regex paterns.
+It has 5 color modes based on lines and regex paterns.
     Mode 1: Do nothing (-l and -w ommited)
     Mode 2: Change entire line color (-l flag used)
     Mode 3: Change regex color (-w flag used)
     Mode 4: Change line and regex color (-l and -w flag used)
+    Mode 5: Specify the type of file with the -o flag followed by one of {ipf|ipt|squid|auth}
 If -l and -w are given the colors will contrast each other.
 
 Caveate: First REGEX match wins. (If your regular expression search finds 2 matches the first one wins.)
