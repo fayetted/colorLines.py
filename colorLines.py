@@ -14,7 +14,11 @@ Caveate: First REGEX match wins. (If your regular expression search finds 2 matc
 
 import sys
 import re
-import argparse
+try:
+    import argparse
+
+except ImportError:
+    raise ImportError("Please install Python Argparse, exiting.")
 
 
 class termColor():
