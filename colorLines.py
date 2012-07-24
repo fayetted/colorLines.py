@@ -12,6 +12,7 @@ If -l and -w are given the colors will contrast each other.
 Caveate: First REGEX match wins. (If your regular expression search finds 2 matches the first one wins.)
 """
 
+import os
 import sys
 import re
 try:
@@ -19,7 +20,6 @@ try:
 
 except ImportError:
     raise ImportError("Please install Python Argparse, exiting.")
-
 
 class termColor():
     RED     = '\033[0m\033[91m'
@@ -43,7 +43,21 @@ class termColor():
     BG_BLACK    = '\033[48m\033[97m'
 
 
+def get_version(version_tuple):
+    version = '%s.%s' % (version_tuple[0], version_tuple[1])
+    if version_tuple[2]:
+        version = '%s.%s' % (version, version_tuple[2])
+        if version_tuple[3]:
+            version = '%s.%s' % (version, version_tuple[3])        
+    return version
+
+init=os.path.join(os.path.dirname(__file__), '__init__.py')
+version_line = filter(lambda l: l.startswith('VERSION'), open(init))[0]
+VERSION = get_version(eval(version_line.split('=')[-1]))
+
+
 parser = argparse.ArgumentParser(description='Change colors of input lines and Regular Expresion matches.')
+parser.add_argument("-V", "--version", action="version", version="%(prog)s " + VERSION, help="Show program's version number and exit")
 parser.add_argument("-l", "--line", action="store_true", dest="colorLine", default=False, help="Change line color based on regex")
 parser.add_argument("-w", "--word", action="store_true", dest="colorWord", default=False, help="Change regex color in each line")
 parser.add_argument("-o", "--type", action="store", dest="fileType", help="Treat STDIN as file type [ipf|ipt|squid|auth]")
