@@ -15,6 +15,7 @@ Caveate: First REGEX match wins. (If your regular expression search finds 2 matc
 import os
 import sys
 import re
+from select import select
 try:
     import argparse
 
@@ -51,18 +52,24 @@ def get_version(version_tuple):
             version = '%s.%s' % (version, version_tuple[3])        
     return version
 
+
+
 init=os.path.join(os.path.dirname(__file__), '__init__.py')
 version_line = filter(lambda l: l.startswith('VERSION'), open(init))[0]
 VERSION = get_version(eval(version_line.split('=')[-1]))
-
 
 parser = argparse.ArgumentParser(description='Change colors of input lines and Regular Expresion matches.')
 parser.add_argument("-V", "--version", action="version", version="%(prog)s " + VERSION, help="Show program's version number and exit")
 parser.add_argument("-l", "--line", action="store_true", dest="colorLine", default=False, help="Change line color based on regex")
 parser.add_argument("-w", "--word", action="store_true", dest="colorWord", default=False, help="Change regex color in each line")
 parser.add_argument("-o", "--type", action="store", dest="fileType", help="Treat STDIN as file type [ipf|ipt|squid|auth]")
+parser.add_argument("-i", "--input", type = argparse.FileType('r'), default = '-')
 options = parser.parse_args()
 
+
+if not select([sys.stdin,],[],[],0.0)[0]:
+    parser.print_help()
+    sys.exit()
 
 #
 ## Make sure that the length of the regexList is not longer than the length of the color list.
